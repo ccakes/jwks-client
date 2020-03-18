@@ -5,6 +5,18 @@ pub struct Error {
     pub typ: Type,
 }
 
+impl std::fmt::Display for Error {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(f, "{:?}: {}", self.typ, self.msg)
+    }
+}
+
+impl std::error::Error for Error {
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        None
+    }
+}
+
 /// Type of error encountered
 #[derive(Debug, PartialEq)]
 pub enum Type {
