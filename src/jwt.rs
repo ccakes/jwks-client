@@ -1,3 +1,4 @@
+use std::convert::TryInto;
 use std::ops::Add;
 use std::time::{Duration, SystemTime};
 
@@ -57,6 +58,14 @@ pub struct Header {
     pub(crate) json: Value,
 }
 
+impl TryInto<Vec<u8>> for Header {
+    type Error = serde_json::Error;
+
+    fn try_into(self) -> Result<Vec<u8>, Self::Error> {
+        serde_json::to_vec(&self)
+    }
+}
+
 impl Header {
     impl_segment!();
 
@@ -112,6 +121,14 @@ impl Header {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Payload {
     pub(crate) json: Value,
+}
+
+impl TryInto<Vec<u8>> for Payload {
+    type Error = serde_json::Error;
+
+    fn try_into(self) -> Result<Vec<u8>, Self::Error> {
+        serde_json::to_vec(&self)
+    }
 }
 
 impl Payload {
